@@ -46,29 +46,29 @@ public class AssetManager {
 					continue;
 				}
 				String[] arrayAsset = asset.trim().split(SEPARATOR);
-				String assetId = arrayAsset[0];
-				String metaName = arrayAsset[1];
-				String metaValue = arrayAsset[2];
-				String action = arrayAsset[3];
+				String p1 = arrayAsset[0];
+				String p2 = arrayAsset[1];
+				String p3 = arrayAsset[2];
+				String p4 = arrayAsset[3];
 				
-				if (!action.isEmpty() && action.equalsIgnoreCase(ACTION_UPDATE_META)) {
-					assetHandler.updateAsset(assetId, metaName, metaValue);
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_UPDATE_META)) {
+					assetHandler.updateAsset(p1, p2, p3);
 				}
-				if (!action.isEmpty() && action.equalsIgnoreCase(ACTION_SEARCH_META)) {
-					assetHandler.searchMetaAsset(assetId, metaName, null);
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_SEARCH_META)) {
+					assetHandler.searchMetaAsset(p1, p2, null);
 				}
-				if (!action.isEmpty() && action.equalsIgnoreCase(ACTION_SEARCH_ITEM)) {
-					assetHandler.searchItemsByGroupId(assetId, metaName);		    		
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_SEARCH_ITEM)) {
+					assetHandler.searchItemsByGroupId(p1, p2);		    		
 				}
-				if (!action.isEmpty() && action.equalsIgnoreCase(ACTION_CREATE_ITEM)) {
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_CREATE_ITEM)) {
 					//TODO enhance efficiency
 					Map<String, String> assetidSkuMapping = new HashMap<String, String>();
-					assetHandler.searchMetaAsset(assetId, "sku", assetidSkuMapping);
-					assetHandler.createItem(assetId, metaName, metaValue, assetidSkuMapping);		    		
+					assetHandler.searchMetaAsset(p1, "sku", assetidSkuMapping);
+					assetHandler.createItem(p1, p2, p3, assetidSkuMapping);		    		
 				}
-				if (!action.isEmpty() && action.equalsIgnoreCase(ACTION_DELETE_ITEM)) {
-					List<String> itemIdList = assetHandler.searchItemsByGroupId(assetId, metaName);
-					assetHandler.deleteItemsByGroupId(assetId, metaName, itemIdList);
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_DELETE_ITEM)) {
+					List<String> itemIdList = assetHandler.searchItemsByGroupId(p1, p2);
+					assetHandler.deleteItemsByGroupId(p1, p2, itemIdList);
 				}
 			}
 			
