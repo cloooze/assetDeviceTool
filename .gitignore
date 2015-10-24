@@ -1,1 +1,7 @@
 *.class
+log/*
+lib/*
+target/*
+.classpath
+.project
+.settings/*
