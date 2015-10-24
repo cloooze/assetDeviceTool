@@ -17,6 +17,13 @@ import com.drutt.ws.msdp.media.management.v3.PaginationResult;
 import com.ericsson.assetDeviceTool.api.MediaMgmtApi;
 import com.ericsson.assetDeviceTool.bean.Device;
 
+/**
+ * 
+ * @author ebragan
+ * This class id deprecated.
+ */
+
+@Deprecated
 public class App 
 {
 	private static final Logger logger = Logger.getLogger(App.class);
