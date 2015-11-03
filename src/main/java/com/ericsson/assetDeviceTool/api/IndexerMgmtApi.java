@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
+import com.drutt.ws.msdp.media.search.v2.Asset;
 import com.drutt.ws.msdp.media.search.v2.IndexerSearchApi;
 import com.drutt.ws.msdp.media.search.v2.IndexerSearchService;
 import com.drutt.ws.msdp.media.search.v2.SearchAssetsRequest;
@@ -78,6 +79,23 @@ public class IndexerMgmtApi {
 		searchAssetsRequest.setQueryString(finalQuery);
     	
 		return getInstance().getIndexerApi().searchAssets(searchAssetsRequest);
+	}
+	
+	public static List<Asset> getAssetsByBrandId(String brandId) throws WSException_Exception {
+		SearchAssetsRequest searchAssetsRequest = new SearchAssetsRequest();
+    	
+    	searchAssetsRequest.setLangCode("en");
+		searchAssetsRequest.getType().add("phone");
+		searchAssetsRequest.setPageSize(100);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("brandId:");
+		sb.append(brandId);
+		
+		searchAssetsRequest.setQueryString(sb.toString());
+    	
+		SearchAssetsResponse resp = getInstance().getIndexerApi().searchAssets(searchAssetsRequest);
+		return resp.getResult();
 	}
 	
 

@@ -279,7 +279,4 @@ public class MediaMgmtApi {
 		getInstance().getMediaApi().createItems(assetId, groupId, item, requireValid);
 		
 	}
-	
-	
-	
 }

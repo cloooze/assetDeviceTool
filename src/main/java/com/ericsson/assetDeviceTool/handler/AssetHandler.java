@@ -69,7 +69,19 @@ private static final Logger logger = Logger.getLogger(App.class);
 		} catch (com.drutt.ws.msdp.media.search.v2.WSException_Exception e) {
 			logger.error(e);
 		}
-		
+	}
+	
+	public static void getAssetsByBrandId() {
+		try {
+			List<com.drutt.ws.msdp.media.search.v2.Asset> listAsset = IndexerMgmtApi.getAssetsByBrandId("bst");
+			
+			for (com.drutt.ws.msdp.media.search.v2.Asset asset : listAsset) {
+				logger.info("AssetID " + asset.getAssetId());
+			}
+		} catch (com.drutt.ws.msdp.media.search.v2.WSException_Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteItemsByGroupId(String assetId, String groupId, List<String> itemIdList) {
@@ -150,6 +162,28 @@ private static final Logger logger = Logger.getLogger(App.class);
 		logger.info("Meta key " + metaName + " not found in  Asset " + assetId);
 		return null;
 	}
+	
+	public void mergeMetaAsset(String assetId, String metaName1, String metaName2) {
+		try {
+			AssetHandler ah = new AssetHandler();
+			
+			String metaValue1 = ah.searchMetaAsset(assetId, metaName1, null);
+			
+			String metaValue2 = ah.searchMetaAsset(assetId, metaName2, null);
+			if (!metaValue1.contains(metaValue2)) {
+				String metaMerged = metaValue2 + " " + metaValue1;
+				
+				ah.updateAsset(assetId, metaName1, metaMerged);
+				
+				logger.info("Meta " + metaName1 + " and " + metaName2 +" succesfully merged. New value of " + metaName1 + " is " + metaMerged);
+			} else {
+				logger.error("Meta " + metaName1 + " already contains value of meta " + metaName2);
+			}
+			
+		} catch (Exception e) {
+			logger.error("Something went wrong merging metas for asset " + assetId);
+		}
+	}
 
 	public void updateAsset(String assetId, String metaName, String metaValue) throws Exception {
 		if (assetId.startsWith("A-")) {
@@ -173,6 +207,26 @@ private static final Logger logger = Logger.getLogger(App.class);
 		MediaMgmtApi.updateAssetPhoneMetaByExternalId(asset, metaName, metaValue);
 		
 		logger.info("Asset " + asset + " succesfully updated. New meta value " + metaName +"-" + metaValue);
+	}
+
+	public void updatePhoneType(String assetId) {
+		AssetHandler ah = new AssetHandler();
+		String newPhoneType = null;
+		try {
+			String phoneType = ah.searchMetaAsset(assetId, "phoneType", null);
+			if (phoneType.equalsIgnoreCase("android")) {
+				newPhoneType = "Android™";
+			}
+			if (phoneType.equalsIgnoreCase("iphone")) {
+				newPhoneType = "iPhone®";
+			}
+			
+			ah.updateAsset(assetId, "phoneType", newPhoneType);
+		} catch (Exception e) {
+			logger.error("Something went wrong updating phoneType");
+			logger.error(e, e);
+		}
+		
 	}
 	
 }

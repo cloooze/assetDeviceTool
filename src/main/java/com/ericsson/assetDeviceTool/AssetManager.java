@@ -23,10 +23,12 @@ public class AssetManager {
 	private static final String ACTION_SEARCH_ITEM = "search_item";
 	private static final String ACTION_DELETE_ITEM = "delete_item";
 	private static final String ACTION_CREATE_ITEM = "create_item";
+	private static final String ACTION_MERGE_META = "merge_meta";
 	private static final String SEPARATOR = ";";
 
+	private static final String ACTION_UPDATE_PHONETYPE = "update_phoneType";
+
 	public static void main(String[] args) {
-		
 		try {
 			File assetFile = null;
 			
@@ -54,6 +56,9 @@ public class AssetManager {
 				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_UPDATE_META)) {
 					assetHandler.updateAsset(p1, p2, p3);
 				}
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_UPDATE_PHONETYPE)) {
+					assetHandler.updatePhoneType(p1);
+				}
 				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_SEARCH_META)) {
 					assetHandler.searchMetaAsset(p1, p2, null);
 				}
@@ -69,6 +74,9 @@ public class AssetManager {
 				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_DELETE_ITEM)) {
 					List<String> itemIdList = assetHandler.searchItemsByGroupId(p1, p2);
 					assetHandler.deleteItemsByGroupId(p1, p2, itemIdList);
+				}
+				if (!p4.isEmpty() && p4.equalsIgnoreCase(ACTION_MERGE_META)) {
+					assetHandler.mergeMetaAsset(p1, p2, p3);
 				}
 			}
 			
